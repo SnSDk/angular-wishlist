@@ -1,23 +1,28 @@
-import {v4 as uuid} from 'uuid';
-
-export class DestinoViaje {
-  selected: boolean;
+import { v4 as uuid } from 'uuid';
+export class destinoModel {
+  private selected: boolean;
   servicios: string[];
   id = uuid();
-  public votes = 0;
-  constructor(public nombre: string, public imagenUrl: string) {
-       this.servicios = ['pileta', 'desayuno'];
+
+  constructor(
+    public destino: string,
+    public nombre: string,
+    public date: string,
+    public votes: number = 0
+  ) {
+    this.servicios = ['pileta', 'desayuno'];
+  }
+  isSelected(): boolean {
+    return this.selected;
   }
   setSelected(s: boolean) {
     this.selected = s;
   }
-  isSelected() {
-    return this.selected;
-  }
-  voteUp(): any {
+
+  voteUp() {
     this.votes++;
   }
-  voteDown(): any {
+  voteDown() {
     this.votes--;
   }
 }

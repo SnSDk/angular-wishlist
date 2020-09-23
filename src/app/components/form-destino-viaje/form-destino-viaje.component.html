@@ -1,37 +1,61 @@
 <form
-		[formGroup]="fg"
-		(ngSubmit)="guardar(
-								fg.controls['nombre'].value,
-								fg.controls['url'].value
-					)">
+  [formGroup]="fg"
+  (ngSubmit)="
+    guardar(
+      fg.controls['destino'].value,
+      fg.controls['place'].value,
+      fg.controls['date'].value
+    )
+  "
+>
   <div class="form-group">
-    <label for="nombre">Nombre</label>
-    <input type="text" class="form-control"
-    		id="nombre" placeholder="Ingresar nombre..."
-    		[formControl]="fg.controls['nombre']">
-    	<ul>
-    		<li *ngFor="let r of searchResults;">{{r}}</li>
-		</ul>
-		<div *ngIf="fg.controls['nombre'].hasError('required')"
-				class="alert alert-danger" role="alert">
-			nombre es obligatorio!
-		</div>
-		<div *ngIf="fg.controls['nombre'].hasError('invalidNombre')"
-				class="alert alert-danger" role="alert">
-			el nombre es invalido!
-		</div>
-		<div *ngIf="fg.controls['nombre'].hasError('minLongNombre')"
-				class="alert alert-danger" role="alert">
-			el nombre debe tener al menos {{ minLongitud }} caracteres!
-		</div>
+    <label for="destino">Titulo</label>
+    <input
+      type="text"
+      class="form-control"
+      id="destino"
+      placeholder="Titulo"
+      [formControl]="fg.controls['destino']"
+    />
+    <ul>
+      <li *ngFor="let r of serchResults">{{ r }}</li>
+    </ul>
+    <div *ngIf="fg.controls['destino'].hasError('required')">
+      <i> Debe Ingresar un titulo</i>
+    </div>
+    <div *ngIf="fg.controls['destino'].hasError('minLongNombre')">
+      <i>Debe tener al menos {{ minLongNombre }} caracteres </i>
+    </div>
+    <div *ngIf="fg.controls['destino'].hasError('invalidNombre')">
+      <i> Titulo invalido</i>
+    </div>
   </div>
   <div class="form-group">
-    <label for="Imagen Url">Imagen Url</label>
-    <input type="text" class="form-control"
-    		id="imagenUrl" placeholder="Ingresar url..."
-    		[formControl]="fg.controls['url']">
+    <label for="place">lugar</label>
+    <input
+      type="text"
+      class="form-control"
+      id="place"
+      placeholder="Lugar"
+      [formControl]="fg.controls['place']"
+    />
   </div>
-  <button type="submit" class="btn btn-primary"
-  		 *ngIf="fg.valid"
-  	>Guardar!</button>
+  <div *ngIf="!fg.controls['place'].valid"><i>Destino invalido</i></div>
+  <div *ngIf="fg.controls['place'].hasError('required')">
+    <i>Debe Ingresar un Destino</i>
+  </div>
+  <div class="form-group">
+    <label for="date">dia</label>
+    <input
+      type="date"
+      class="form-control"
+      id="date"
+      placeholder="Fecha"
+      [formControl]="fg.controls['date']"
+    />
+  </div>
+
+  <button type="submit" class="btn btn-primary" *ngIf="fg.valid">
+    Guardar
+  </button>
 </form>

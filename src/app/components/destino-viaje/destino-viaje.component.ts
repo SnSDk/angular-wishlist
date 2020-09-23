@@ -1,9 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter, HostBinding } from '@angular/core';
-import { DestinoViaje } from './../../models/destino-viaje.model';
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from '@angular/animations';
+import { Output } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  HostBinding,
+  EventEmitter,
+} from '@angular/core';
 import { Store } from '@ngrx/store';
 import { AppState } from '../../app.module';
-import { VoteUpAction, VoteDownAction } from '../../models/destinos-viajes-state.model';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { destinoModel } from '../../models/destino-viaje.model';
+import {
+  VoteDownAction,
+  VoteUpAction,
+} from '../../models/destinos-viajes-state.model';
 
 @Component({
   selector: 'app-destino-viaje',
@@ -11,36 +27,36 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   styleUrls: ['./destino-viaje.component.css'],
   animations: [
     trigger('esFavorito', [
-      state('estadoFavorito', style({
-        backgroundColor: 'PaleTurquoise'
-      })),
-      state('estadoNoFavorito', style({
-        backgroundColor: 'WhiteSmoke'
-      })),
-      transition('estadoNoFavorito => estadoFavorito', [
-        animate('3s')
-      ]),
-      transition('estadoFavorito => estadoNoFavorito', [
-        animate('1s')
-      ]),
-    ])
-  ]
+      state(
+        'estadoFavorito',
+        style({
+          backgroundColor: 'PaleTurquoise',
+        })
+      ),
+      state(
+        'estadoNoFavorito',
+        style({
+          backgroundColor: 'WhiteSmoke',
+        })
+      ),
+      transition('estadoNoFavorito => estadoFavorito', [animate('3s')]),
+      transition('estadoFavorito => estadoNoFavorito', [animate('1s')]),
+    ]),
+  ],
 })
 export class DestinoViajeComponent implements OnInit {
-  @Input() destino: DestinoViaje;
-  @Input("idx") position: number;
+  @Input() destino: destinoModel;
+  @Input('index') position: destinoModel;
   @HostBinding('attr.class') cssClass = 'col-md-4';
-  @Output() onClicked: EventEmitter<DestinoViaje>;
-
+  @Output() clicked: EventEmitter<destinoModel>;
   constructor(private store: Store<AppState>) {
-    this.onClicked = new EventEmitter();
+    this.clicked = new EventEmitter();
   }
 
-  ngOnInit() {
-  }
+  ngOnInit(): void {}
 
   ir() {
-    this.onClicked.emit(this.destino);
+    this.clicked.emit(this.destino);
     return false;
   }
 
@@ -48,7 +64,6 @@ export class DestinoViajeComponent implements OnInit {
     this.store.dispatch(new VoteUpAction(this.destino));
     return false;
   }
-
   voteDown() {
     this.store.dispatch(new VoteDownAction(this.destino));
     return false;
